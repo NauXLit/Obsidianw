@@ -5717,7 +5717,7 @@ function Library:CreateWindow(WindowInfo)
         task.spawn(Library.Toggle)
     end
 
-    if Library.IsMobile then
+  --[[  if Library.IsMobile then
         local ToggleButton = Library:AddDraggableButton("Toggle", function()
             Library:Toggle()
         end)
@@ -5736,7 +5736,7 @@ function Library:CreateWindow(WindowInfo)
         else
             LockButton.Button.Position = UDim2.fromOffset(6, 46)
         end
-    end
+    end]]
 
     --// Execution \\--
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
