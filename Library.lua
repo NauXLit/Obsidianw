@@ -247,8 +247,8 @@ local Templates = {
         Footer = "No Footer",
         Position = UDim2.fromOffset(6, 6),
         Size = UDim2.fromOffset(720, 600),
-        IconSize = UDim2.fromOffset(30, 30),
-        AutoShow = true,
+        IconSize = UDim2.fromOffset(75, 75),
+        AutoShow = false,
         Center = true,
         Resizable = true,
         CornerRadius = 4,
@@ -6434,7 +6434,7 @@ function Library:CreateWindow(WindowInfo)
         task.spawn(Library.Toggle)
     end
 
-    if Library.IsMobile then
+ --[[   if Library.IsMobile then
         local ToggleButton = Library:AddDraggableButton("Toggle", function()
             Library:Toggle()
         end)
@@ -6453,7 +6453,7 @@ function Library:CreateWindow(WindowInfo)
         else
             LockButton.Button.Position = UDim2.fromOffset(6, 46)
         end
-    end
+            end     end]]
 
     --// Execution \\--
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
