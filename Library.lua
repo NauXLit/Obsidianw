@@ -2091,42 +2091,45 @@ do
         end
 
         local Picking = false
-        Picker.MouseButton1Click:Connect(function()
-            if Picking then
-                return
-            end
+        local Picking = false
 
-            Picking = true
+ Picker.MouseButton1Click:Connect(function()
+    if Picking then return end
+    Picking = true
 
-            Picker.Text = "..."
-            Picker.Size = UDim2.fromOffset(29 * Library.DPIScale, 18 * Library.DPIScale)
+    Picker.Text = "..."
+    Picker.Size = UDim2.fromOffset(29 * Library.DPIScale, 18 * Library.DPIScale)
 
-            local Input = UserInputService.InputBegan:Wait()
-            local Key = "Unknown"
+    -- Capture the next input
+    local InputConnection
+    InputConnection = UserInputService.InputBegan:Connect(function(Input)
+        local Key = "Unknown"
 
-            if Input.UserInputType == Enum.UserInputType.Keyboard then
-                Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name
-            elseif Input.UserInputType == Enum.UserInputType.MouseButton1 then
-                Key = "MB1"
-            elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
-                Key = "MB2"
-            end
+        if Input.UserInputType == Enum.UserInputType.Keyboard then
+            Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name
+        elseif Input.UserInputType == Enum.UserInputType.MouseButton1 then
+            Key = "MB1"
+        elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
+            Key = "MB2"
+        end
 
-            KeyPicker.Value = Key
-            KeyPicker:Update()
+        KeyPicker.Value = Key
+        KeyPicker:Update()
 
-            Library:SafeCallback(
-                KeyPicker.ChangedCallback,
-                Input.KeyCode == Enum.KeyCode.Unknown and Input.UserInputType or Input.KeyCode
-            )
-            Library:SafeCallback(
-                KeyPicker.Changed,
-                Input.KeyCode == Enum.KeyCode.Unknown and Input.UserInputType or Input.KeyCode
-            )
+        Library:SafeCallback(
+            KeyPicker.ChangedCallback,
+            Input.KeyCode == Enum.KeyCode.Unknown and Input.UserInputType or Input.KeyCode
+        )
+        Library:SafeCallback(
+            KeyPicker.Changed,
+            Input.KeyCode == Enum.KeyCode.Unknown and Input.UserInputType or Input.KeyCode
+        )
 
-            RunService.RenderStepped:Wait()
-            Picking = false
-        end)
+        Picking = false
+        InputConnection:Disconnect()
+    end)
+end)
+
         Picker.MouseButton2Click:Connect(MenuTable.Toggle)
 
         Library:GiveSignal(UserInputService.InputBegan:Connect(function(Input: InputObject)
